@@ -1,6 +1,5 @@
 package com.rodrigo.userservice.adapter.web.user;
 
-import com.rodrigo.userservice.core.port.user.in.FindUserByIdUseCase;
 import com.rodrigo.userservice.adapter.web.user.dto.request.CreateUserRequestDto;
 import com.rodrigo.userservice.adapter.web.user.dto.response.CreateUserResponseDto;
 import com.rodrigo.userservice.adapter.web.user.dto.response.FindAllUsersResponseDto;
@@ -11,6 +10,8 @@ import com.rodrigo.userservice.adapter.web.user.mapper.FindAllUsersResponseMappe
 import com.rodrigo.userservice.adapter.web.user.mapper.FindUserByIdResponseMapper;
 import com.rodrigo.userservice.core.port.user.in.CreateUserUseCase;
 import com.rodrigo.userservice.core.port.user.in.FindAllUsersUseCase;
+import com.rodrigo.userservice.core.port.user.in.FindUserByIdUseCase;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -62,6 +63,7 @@ public class UserController {
                 .map(dto -> ResponseEntity.created(URI.create("/users/" + dto.getId())).body(dto));
     }
 
+    @ApiOperation(value = "Hidden method.", hidden = true)
     @GetMapping(value = "/event-stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public ResponseEntity<Flux<Tuple2<FindAllUsersResponseDto, Long>>> findAllEventStream() {
         return ResponseEntity.ok(findAllUsersUseCase.findAll()
@@ -69,6 +71,7 @@ public class UserController {
                 .zipWith(Flux.interval(Duration.ofSeconds(10))));
     }
 
+    @ApiOperation(value = "Hidden method.", hidden = true)
     @GetMapping(value = "/event-stream2", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public ResponseEntity<Flux<FindAllUsersResponseDto>> findAllEventStream2() {
         return ResponseEntity.ok(Flux.interval(Duration.ofSeconds(10))
