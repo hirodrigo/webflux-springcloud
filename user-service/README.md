@@ -1,3 +1,3 @@
-#Environment Variables
+## Environment Variables
 
 ACTIVE_PROFILE=prod
